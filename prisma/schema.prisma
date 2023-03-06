@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model TipoOcorrencia {
+  idTipoOcorrencia   Int          @id @default(autoincrement())
+  descTipoOcorrencia String       @unique
+  ocorrencia         Ocorrencia[]
+
+  @@map("Tipo_Ocorrencia")
+}
+
+model StatusOcorrencia {
+  idStatusOcorrencia   Int          @id @default(autoincrement())
+  descStatusOcorrencia String       @unique
+  ocorrencia           Ocorrencia[]
+
+  @@map("Status_Ocorrencia")
+}
+
+model Telefone {
+  idTelefone     Int      @id @default(autoincrement())
+  numeroTelefone String   @unique
+  pessoas        Pessoa[]
+}
+
+model Veiculo {
+  idVeiculo   Int      @id @default(autoincrement())
+  placa       String   @unique
+  tipoVeiculo String?
+  cor         String?
+  modelo      String?
+  pessoas     Pessoa[]
+}
+
+model Ocorrencia {
+  idOcorrencia       Int              @id @default(autoincrement())
+  nomePorteiro       String           @db.VarChar(255)
+  descOcorrencia     String           @db.VarChar(500)
+  dataOcorrencia     DateTime
+  tipoOcorrenciaId   Int
+  tipoOcorrencia     TipoOcorrencia   @relation(fields: [tipoOcorrenciaId], references: [idTipoOcorrencia])
+  statusOcorrenciaId Int
+  statusOcorrencia   StatusOcorrencia @relation(fields: [statusOcorrenciaId], references: [idStatusOcorrencia])
+}
+
+model Endereco {
+  idEndereco  Int       @id @default(autoincrement())
+  quadra      String
+  lote        String
+  bloco       String
+  apartamento String
+  pessoas     Pessoa[]
+  destinos    Destino[]
+}
+
+model Destino {
+  idDestino   Int      @id @default(autoincrement())
+  descDestino String   @unique
+  dhEntrada   DateTime
+  dhSaida     DateTime
+  enderecoId  Int
+  endereco    Endereco @relation(fields: [enderecoId], references: [idEndereco])
+}
+
+model TipoPessoa {
+  idTipoPessoa   Int      @id @default(autoincrement())
+  nomePessoa     String   @unique
+  descTipoPessoa String?
+  pessoas        Pessoa[]
+}
+
+model Pessoa {
+  idPessoa     Int        @id @default(autoincrement())
+  nomePessoa   String     @db.VarChar(255)
+  documento    String     @db.VarChar(50)
+  empresa      String?    @db.VarChar(255)
+  nomePai      String?    @db.VarChar(255)
+  nomeMae      String?    @db.VarChar(255)
+  email        String?    @db.VarChar(100)
+  tipoPessoaId Int
+  tipoPessoa   TipoPessoa @relation(fields: [tipoPessoaId], references: [idTipoPessoa])
+  enderecoId   Int
+  Endereco     Endereco?  @relation(fields: [enderecoId], references: [idEndereco])
+  telefoneID   Int
+  telefone     Telefone[]
+  veiculos     Veiculo[]
+}
