@@ -1,7 +1,7 @@
 import { IsString, IsEmpty, IsInt } from "class-validator";
 
-export class CreateVisitanteDto {
-
+export class CreateMoradorDto {
+    
     @IsString()
     @IsEmpty()
     nomePessoa: string;   
