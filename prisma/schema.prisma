@@ -93,3 +93,11 @@ model Pessoa {
   telefone     Telefone[]
   veiculos     Veiculo[]
 }
+
+model Previsao {
+  idPrevisao Int @id @default(autoincrement())
+  dataVisita DateTime
+  totalPessoas Int
+  chuva Boolean
+  evento Boolean
+}
