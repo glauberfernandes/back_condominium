@@ -26,7 +26,5 @@ export class UpdateVisitanteDto extends PartialType(CreateVisitanteDto) {
 
     @IsOptional()      
     enderecoId:number
-
-    @IsOptional()      
-    telefoneId:number
+    
 }

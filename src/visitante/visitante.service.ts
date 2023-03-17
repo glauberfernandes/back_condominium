@@ -5,20 +5,19 @@ import { PrismaService } from 'src/conexao/PrismaService';
 
 @Injectable()
 export class VisitanteService {
-  constructor( private prisma: PrismaService ){}
+  constructor(private prisma: PrismaService) { }
 
   async create(createVisitanteDto: CreateVisitanteDto) {
+    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, tipoPessoaId, enderecoId } = createVisitanteDto;
     return this.prisma.pessoa.create({
       data: {
-        nomePessoa: createVisitanteDto.nomePessoa,
-        documento: createVisitanteDto.documento,
-        empresa: createVisitanteDto.empresa,
-        nomePai: createVisitanteDto.nomePai,
-        nomeMae: createVisitanteDto.nomeMae,
-        email: createVisitanteDto.email,
-        tipoPessoaId: createVisitanteDto.tipoPessoaId,
-        enderecoId: createVisitanteDto.enderecoId,
-        telefoneID: createVisitanteDto.telefoneId
+        nomePessoa,
+        documento,
+        empresa,
+        nomePai,
+        nomeMae, email,
+        tipoPessoaId,
+        enderecoId
       }
     });
   }
@@ -40,7 +39,7 @@ export class VisitanteService {
   }
 
   update(id: number, updateVisitanteDto: UpdateVisitanteDto) {
-    return this.prisma.pessoa.update({ where: {idPessoa: id}, data: updateVisitanteDto});
+    return this.prisma.pessoa.update({ where: { idPessoa: id }, data: updateVisitanteDto });
   }
 
   remove(id: number) {

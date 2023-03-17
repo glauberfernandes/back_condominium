@@ -27,6 +27,4 @@ export class UpdateMoradorDto extends PartialType(CreateMoradorDto) {
     @IsOptional()      
     enderecoId:number
 
-    @IsOptional()      
-    telefoneId:number
 }

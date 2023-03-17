@@ -34,7 +34,4 @@ export class CreateMoradorDto {
     @IsEmpty()      
     enderecoId:number
 
-    @IsInt()
-    @IsEmpty()      
-    telefoneId:number
 }

@@ -33,8 +33,4 @@ export class CreateVisitanteDto {
     @IsInt()
     @IsEmpty()      
     enderecoId:number
-
-    @IsInt()
-    @IsEmpty()      
-    telefoneId:number
 }

@@ -90,7 +90,6 @@ model Pessoa {
   tipoPessoa   TipoPessoa @relation(fields: [tipoPessoaId], references: [idTipoPessoa])
   enderecoId   Int
   Endereco     Endereco?  @relation(fields: [enderecoId], references: [idEndereco])
-  telefoneID   Int
   telefone     Telefone[]
   veiculos     Veiculo[]
 }

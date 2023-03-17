@@ -17,8 +17,7 @@ export class MoradorService {
         nomeMae: createMoradorDto.nomeMae,
         email: createMoradorDto.email,
         tipoPessoaId: createMoradorDto.tipoPessoaId,
-        enderecoId: createMoradorDto.enderecoId,
-        telefoneID: createMoradorDto.telefoneId
+        enderecoId: createMoradorDto.enderecoId
       }
     });
   }
