@@ -7,19 +7,21 @@ import { PrismaService } from 'src/conexao/PrismaService';
 export class MoradorService {
   constructor( private prisma: PrismaService ){}
 
-  create(createMoradorDto: CreateMoradorDto) {
-    return this.prisma.pessoa.create({
+  async create(createMoradorDto: CreateMoradorDto) {
+    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, tipoPessoaId, enderecoId } = createMoradorDto;
+    let novoMorador = await this.prisma.pessoa.create({
       data: {
-        nomePessoa: createMoradorDto.nomePessoa,
-        documento: createMoradorDto.documento,
-        empresa: createMoradorDto.empresa,
-        nomePai: createMoradorDto.nomePai,
-        nomeMae: createMoradorDto.nomeMae,
-        email: createMoradorDto.email,
-        tipoPessoaId: createMoradorDto.tipoPessoaId,
-        enderecoId: createMoradorDto.enderecoId
+        nomePessoa,
+        documento,
+        empresa,
+        nomePai,
+        nomeMae, 
+        email,
+        tipoPessoaId,
+        enderecoId
       }
     });
+    return novoMorador;
   }
 
   findAll() {
