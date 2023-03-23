@@ -1,26 +1,59 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/conexao/PrismaService';
 import { CreatePrestadorDto } from './dto/create-prestador.dto';
 import { UpdatePrestadorDto } from './dto/update-prestador.dto';
 
 @Injectable()
 export class PrestadorService {
-  create(createPrestadorDto: CreatePrestadorDto) {
-    return 'This action adds a new prestador';
+  constructor(private prisma: PrismaService) { }
+  
+  async create(createPrestadorDto: CreatePrestadorDto) {
+    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, tipoPessoaId, enderecoId } = createPrestadorDto;
+    let novoPrestador = await this.prisma.pessoa.create({
+      data: {
+        nomePessoa,
+        documento,
+        empresa,
+        nomePai,
+        nomeMae, 
+        email,
+        tipoPessoaId,
+        enderecoId
+      }
+    });
+    return novoPrestador;
   }
 
   findAll() {
-    return `This action returns all prestador`;
+    return this.prisma.pessoa.findMany({
+      where: {
+        tipoPessoaId: 3
+      }
+    })
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} prestador`;
+    return this.prisma.pessoa.findUnique({
+      where: {
+        idPessoa: id
+      }
+    });
   }
 
   update(id: number, updatePrestadorDto: UpdatePrestadorDto) {
-    return `This action updates a #${id} prestador`;
+    return this.prisma.pessoa.update({ 
+      where: { 
+        idPessoa: id 
+      }, 
+      data: updatePrestadorDto 
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} prestador`;
+    return this.prisma.pessoa.delete({
+      where: {
+        idPessoa: id
+      }
+    });
   }
 }
