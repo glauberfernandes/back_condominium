@@ -8,20 +8,20 @@ export class VisitanteService {
   constructor(private prisma: PrismaService) { }
 
   async create(createVisitanteDto: CreateVisitanteDto) {
-    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, tipoPessoaId, enderecoId } = createVisitanteDto;
+    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, enderecoId, tipoPessoaId } = createVisitanteDto;
     let novoVisitante = await this.prisma.pessoa.create({
-      data: {
-        nomePessoa,
-        documento,
-        empresa,
-        nomePai,
-        nomeMae, 
-        email,
-        tipoPessoaId,
-        enderecoId
-      }
-    });
-    return novoVisitante;
+        data: {
+          nomePessoa,
+          documento,
+          empresa,
+          nomePai,
+          nomeMae, 
+          email,
+          enderecoId,
+          tipoPessoaId,
+        }
+      });
+      return novoVisitante;
   }
 
   findAll() {
