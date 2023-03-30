@@ -73,7 +73,7 @@ model Destino {
 
 model TipoPessoa {
   idTipoPessoa   Int      @id @default(autoincrement())
-  nomePessoa     String   @unique
+  nomeTipo       String   @unique
   descTipoPessoa String?
   pessoas        Pessoa[]
 }
@@ -88,16 +88,16 @@ model Pessoa {
   email        String?    @db.VarChar(100)
   tipoPessoaId Int
   tipoPessoa   TipoPessoa @relation(fields: [tipoPessoaId], references: [idTipoPessoa])
-  enderecoId   Int
+  enderecoId   Int?
   Endereco     Endereco?  @relation(fields: [enderecoId], references: [idEndereco])
   telefone     Telefone[]
   veiculos     Veiculo[]
 }
 
 model Previsao {
-  idPrevisao Int @id @default(autoincrement())
-  dataVisita DateTime
+  idPrevisao   Int      @id @default(autoincrement())
+  dataVisita   DateTime
   totalPessoas Int
-  chuva Boolean
-  evento Boolean
+  chuva        Boolean
+  evento       Boolean
 }

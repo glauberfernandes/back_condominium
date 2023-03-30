@@ -28,7 +28,7 @@ export class CreateVisitanteDto {
 
     @IsInt()
     @IsEmpty()      
-    tipoPessoaId:number
+    nomeTipo: string
 
     @IsInt()
     @IsEmpty()      
