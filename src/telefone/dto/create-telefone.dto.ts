@@ -1,9 +1,9 @@
 import { IsString, IsEmpty, IsInt } from "class-validator";
 
 export class CreateTelefoneDto {
-    @IsInt()
+    @IsString()
     @IsEmpty()
-    idTelefone: number
+    DDD: string
 
     @IsString()
     @IsEmpty()

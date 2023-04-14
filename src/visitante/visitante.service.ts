@@ -31,7 +31,9 @@ export class VisitanteService {
   findAll() {
     return this.prisma.pessoa.findMany({
       where: {
-        tipoPessoaId: 1
+        tipoPessoa: {
+          nomeTipo: 'visitante'
+        }
       }
     })
   }
