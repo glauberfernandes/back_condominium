@@ -1,6 +1,7 @@
 import { IsString, IsEmpty, IsInt } from "class-validator";
 
 export class CreatePrestadorDto {
+
     @IsString()
     @IsEmpty()
     nomePessoa: string;   
@@ -27,7 +28,7 @@ export class CreatePrestadorDto {
 
     @IsInt()
     @IsEmpty()      
-    tipoPessoaId:number
+    nomeTipo: string
 
     @IsInt()
     @IsEmpty()      

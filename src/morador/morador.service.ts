@@ -5,20 +5,24 @@ import { PrismaService } from 'src/conexao/PrismaService';
 
 @Injectable()
 export class MoradorService {
-  constructor( private prisma: PrismaService ){}
+  constructor(private prisma: PrismaService) { }
 
   async create(createMoradorDto: CreateMoradorDto) {
-    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, tipoPessoaId, enderecoId } = createMoradorDto;
+    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, /*enderecoId,*/  nomeTipo } = createMoradorDto;
     let novoMorador = await this.prisma.pessoa.create({
       data: {
         nomePessoa,
         documento,
         empresa,
         nomePai,
-        nomeMae, 
+        nomeMae,
         email,
-        tipoPessoaId,
-        enderecoId
+        //enderecoId,
+        tipoPessoa: {
+          create: {
+            nomeTipo
+          }
+        }
       }
     });
     return novoMorador;
@@ -26,8 +30,13 @@ export class MoradorService {
 
   findAll() {
     return this.prisma.pessoa.findMany({
+      orderBy: [{
+        nomePessoa: 'asc',
+      }],
       where: {
-        tipoPessoaId: 2
+        tipoPessoa: {
+          nomeTipo: 'morador'
+        }
       }
     })
   }
@@ -41,7 +50,7 @@ export class MoradorService {
   }
 
   update(id: number, updateMoradorDto: UpdateMoradorDto) {
-    return this.prisma.pessoa.update({ where: {idPessoa: id}, data: updateMoradorDto});
+    return this.prisma.pessoa.update({ where: { idPessoa: id }, data: updateMoradorDto });
   }
 
   remove(id: number) {

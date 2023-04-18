@@ -1,11 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOcorrenciaDto } from './dto/create-ocorrencia.dto';
 import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
+import { PrismaService } from 'src/conexao/PrismaService';
 
 @Injectable()
 export class OcorrenciaService {
-  create(createOcorrenciaDto: CreateOcorrenciaDto) {
-    return 'This action adds a new ocorrencia';
+  constructor(private prisma: PrismaService) { }
+
+  async create(createOcorrenciaDto: CreateOcorrenciaDto) {
+    let { nomePorteiro, descOcorrencia, dataOcorrencia, descTipoOcorrencia, descStatusOcorrencia } = createOcorrenciaDto;
+    let novaOcorrencia = await this.prisma.ocorrencia.create({
+        data: {
+          nomePorteiro,
+          descOcorrencia,
+          dataOcorrencia,
+          tipoOcorrencia: {
+            create: {
+              descTipoOcorrencia
+            }
+          },
+          statusOcorrencia: {
+            create: {
+              descStatusOcorrencia
+            }
+          }
+        }
+      });
+      return novaOcorrencia;
   }
 
   findAll() {

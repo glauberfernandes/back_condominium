@@ -8,17 +8,21 @@ export class PrestadorService {
   constructor(private prisma: PrismaService) { }
   
   async create(createPrestadorDto: CreatePrestadorDto) {
-    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, tipoPessoaId, enderecoId } = createPrestadorDto;
+    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, /*enderecoId,*/  nomeTipo } = createPrestadorDto;
     let novoPrestador = await this.prisma.pessoa.create({
       data: {
         nomePessoa,
         documento,
         empresa,
         nomePai,
-        nomeMae, 
+        nomeMae,
         email,
-        tipoPessoaId,
-        enderecoId
+        //enderecoId,
+        tipoPessoa: {
+          create: {
+            nomeTipo
+          }
+        }
       }
     });
     return novoPrestador;
@@ -26,8 +30,13 @@ export class PrestadorService {
 
   findAll() {
     return this.prisma.pessoa.findMany({
+      orderBy: [{
+        nomePessoa: 'asc',
+      }],
       where: {
-        tipoPessoaId: 3
+        tipoPessoa: {
+          nomeTipo: 'prestador'
+        }
       }
     })
   }

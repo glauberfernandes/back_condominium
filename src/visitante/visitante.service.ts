@@ -30,11 +30,15 @@ export class VisitanteService {
 
   findAll() {
     return this.prisma.pessoa.findMany({
+      orderBy: [{
+        nomePessoa: 'asc',
+      }],
       where: {
         tipoPessoa: {
           nomeTipo: 'visitante'
         }
       }
+    
     })
   }
 

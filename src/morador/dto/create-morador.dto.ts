@@ -1,7 +1,7 @@
 import { IsString, IsEmpty, IsInt } from "class-validator";
 
 export class CreateMoradorDto {
-    
+
     @IsString()
     @IsEmpty()
     nomePessoa: string;   
@@ -28,10 +28,9 @@ export class CreateMoradorDto {
 
     @IsInt()
     @IsEmpty()      
-    tipoPessoaId:number
+    nomeTipo: string
 
     @IsInt()
     @IsEmpty()      
     enderecoId:number
-
 }
