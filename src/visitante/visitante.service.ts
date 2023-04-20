@@ -28,8 +28,8 @@ export class VisitanteService {
       return novoVisitante;
   }
 
-  findAll() {
-    return this.prisma.pessoa.findMany({
+  async findAll() {
+    return await this.prisma.pessoa.findMany({
       orderBy: [{
         nomePessoa: 'asc',
       }],
@@ -42,20 +42,20 @@ export class VisitanteService {
     })
   }
 
-  findOne(id: number) {
-    return this.prisma.pessoa.findUnique({
+  async findOne(id: number) {
+    return await this.prisma.pessoa.findUnique({
       where: {
         idPessoa: id
       }
     });
   }
 
-  update(id: number, updateVisitanteDto: UpdateVisitanteDto) {
-    return this.prisma.pessoa.update({ where: { idPessoa: id }, data: updateVisitanteDto });
+  async update(id: number, updateVisitanteDto: UpdateVisitanteDto) {
+    return await this.prisma.pessoa.update({ where: { idPessoa: id }, data: updateVisitanteDto });
   }
 
-  remove(id: number) {
-    return this.prisma.pessoa.delete({
+  async remove(id: number) {
+    return await this.prisma.pessoa.delete({
       where: {
         idPessoa: id
       }

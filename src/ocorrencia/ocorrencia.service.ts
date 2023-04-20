@@ -29,19 +29,66 @@ export class OcorrenciaService {
       return novaOcorrencia;
   }
 
-  findAll() {
-    return `This action returns all ocorrencia`;
+  async findAll() {
+    let lista = await this.prisma.ocorrencia.findMany({
+      select:{
+        nomePorteiro: true,
+        descOcorrencia: true,
+        dataOcorrencia: true,
+
+        tipoOcorrencia:{
+          select:{
+            descTipoOcorrencia: true
+          }
+        },
+
+        statusOcorrencia:{
+          select:{
+            descStatusOcorrencia: true
+          }
+        }
+      },
+
+    });
+    return lista
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} ocorrencia`;
+  async findOne(id: number) {
+    return await this.prisma.ocorrencia.findUnique({
+      where: {
+        idOcorrencia: id
+      },
+
+      select:{
+        nomePorteiro: true,
+        descOcorrencia: true,
+        dataOcorrencia: true,
+
+        tipoOcorrencia:{
+          select:{
+            descTipoOcorrencia: true
+          }
+        },
+
+        statusOcorrencia:{
+          select:{
+            descStatusOcorrencia: true
+          }
+        }
+      },
+
+    });
   }
 
-  update(id: number, updateOcorrenciaDto: UpdateOcorrenciaDto) {
-    return `This action updates a #${id} ocorrencia`;
+  async update(id: number, updateOcorrenciaDto: UpdateOcorrenciaDto) {
+    return await this.prisma.ocorrencia.update({ where: { idOcorrencia: id }, data: updateOcorrenciaDto })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} ocorrencia`;
+  async remove(id: number) {
+    return await this.prisma.ocorrencia.delete({
+      where: {
+        idOcorrencia: id
+      }
+    });
   }
 }

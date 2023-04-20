@@ -1,25 +1,20 @@
 import { PartialType } from '@nestjs/mapped-types';
+import { IsOptional } from "class-validator";
 import { CreateOcorrenciaDto } from './create-ocorrencia.dto';
-import { IsString, IsEmpty, IsInt } from "class-validator";
 
 export class UpdateOcorrenciaDto extends PartialType(CreateOcorrenciaDto) {
-    @IsString()
-    @IsEmpty()
+    @IsOptional()
     nomePorteiro: string;   
     
-    @IsString()
-    @IsEmpty()
+    @IsOptional()
     descOcorrencia: string;
 
-    @IsString()
-    @IsEmpty()
+    @IsOptional()
     dataOcorrencia: Date;
 
-    @IsString()
-    @IsEmpty()
-    tipoOcorrencia: string;
+    @IsOptional()
+    tipoOcorrencia: object;
 
-    @IsString()
-    @IsEmpty()
-    statusOcorrencia: string;
+    @IsOptional()
+    statusOcorrencia: object;
 }

@@ -12,7 +12,7 @@ datasource db {
 
 model TipoOcorrencia {
   idTipoOcorrencia   Int          @id @default(autoincrement())
-  descTipoOcorrencia String       @unique
+  descTipoOcorrencia String
   ocorrencia         Ocorrencia[]
 
   @@map("Tipo_Ocorrencia")
@@ -20,7 +20,7 @@ model TipoOcorrencia {
 
 model StatusOcorrencia {
   idStatusOcorrencia   Int          @id @default(autoincrement())
-  descStatusOcorrencia String       @unique
+  descStatusOcorrencia String
   ocorrencia           Ocorrencia[]
 
   @@map("Status_Ocorrencia")

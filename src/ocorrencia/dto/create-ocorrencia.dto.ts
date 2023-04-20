@@ -1,4 +1,4 @@
-import { IsString, IsEmpty, IsInt } from "class-validator";
+import { IsString, IsEmpty } from "class-validator";
 
 export class CreateOcorrenciaDto {
     @IsString()
