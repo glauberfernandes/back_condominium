@@ -13,8 +13,8 @@ export class UpdateOcorrenciaDto extends PartialType(CreateOcorrenciaDto) {
     dataOcorrencia: Date;
 
     @IsOptional()
-    tipoOcorrencia: object;
+    descTipoOcorrencia: string;
 
     @IsOptional()
-    statusOcorrencia: object;
+    descStatusOcorrencia: string;
 }

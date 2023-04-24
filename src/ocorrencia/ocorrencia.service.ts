@@ -32,6 +32,7 @@ export class OcorrenciaService {
   async findAll() {
     let lista = await this.prisma.ocorrencia.findMany({
       select:{
+        idOcorrencia: true,
         nomePorteiro: true,
         descOcorrencia: true,
         dataOcorrencia: true,
@@ -75,7 +76,7 @@ export class OcorrenciaService {
             descStatusOcorrencia: true
           }
         }
-      },
+      }
 
     });
   }
