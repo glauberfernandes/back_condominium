@@ -1,4 +1,4 @@
-const base64Url = require('base64-url');
+import base64Url from 'base64-url';
 
 const header = {
     alg: 'HS256',

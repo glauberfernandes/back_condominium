@@ -102,3 +102,10 @@ model Previsao {
   chuva        Boolean
   evento       Boolean
 }
+
+model Login {
+  idLogin     Int      @id @default(autoincrement())
+  nomeUsuario String
+  senha       String
+  exp         DateTime
+}
