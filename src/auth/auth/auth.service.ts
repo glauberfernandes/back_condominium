@@ -25,9 +25,7 @@ const users = [
 
 @Injectable()
 export class AuthService {
-    constructor(private jwtService: JwtService){
-
-    }
+    constructor(private jwtService: JwtService){}
 
     login(username: string, password: string){
         const user = this.validateCredentials(username, password);
