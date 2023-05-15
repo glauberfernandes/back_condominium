@@ -109,3 +109,10 @@ model Login {
   senha       String
   exp         DateTime
 }
+
+model Usuario {
+  idUsuario   Int    @id @default(autoincrement())
+  nomeUsuario String @unique
+  senha       String @unique
+  role        String
+}

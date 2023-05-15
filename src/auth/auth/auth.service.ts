@@ -1,51 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { UsuarioService } from 'src/usuario/usuario.service';
 import * as bcrypt from 'bcrypt';
-
-const users = [
-    {
-      id: 1,
-      username: 'user1@user.com',
-      password: '$2b$10$EecWnvyBtN4ttSJWILAjs.lnOfVejB7ABCxWGLS0OUCEcbcnwTu5K', //123456
-      role: 'admin',
-    },
-    {
-      id: 2,
-      username: 'user2@user.com',
-      password: '$2b$10$EecWnvyBtN4ttSJWILAjs.lnOfVejB7ABCxWGLS0OUCEcbcnwTu5K',
-      role: 'user',
-    },
-    {
-      id: 3,
-      username: 'user3@user.com',
-      password: '$2b$10$EecWnvyBtN4ttSJWILAjs.lnOfVejB7ABCxWGLS0OUCEcbcnwTu5K',
-      role: 'user',
-    },
-  ];
+import { Usuario } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-    constructor(private jwtService: JwtService){}
+    constructor(private jwtService: JwtService, private usuarioService: UsuarioService){}
 
-    login(username: string, password: string){
-        const user = this.validateCredentials(username, password);
+    async validateUser(username: string, password: string): Promise<any> {
 
-        const payload = {
-          sub: user.id,
-          username: user.username,
-          role: user.role,
-        };
+      const user = await this.usuarioService.findUser(username);
 
-        return this.jwtService.sign(payload);
-    }
-
-    validateCredentials(username: string, password: string){
-      const user = users.find(U => U.username === username && bcrypt.compareSync(password, U.password));
-
-      if(!user){
-        throw new Error('User not found');
+      if (!user || bcrypt.compareSync(user.senha, password)) {
+        throw new UnauthorizedException('Invalid credentials');
       }
-
       return user;
     }
+  
+    async login(user: Usuario) {
+
+      const payload = {
+        sub: user.idUsuario,
+        username: user.nomeUsuario,
+        role: user.role,
+      };
+
+      const token = await this.jwtService.signAsync(payload);
+
+      return { token };
+    }
+
 }
