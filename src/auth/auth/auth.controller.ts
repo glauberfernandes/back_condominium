@@ -1,30 +1,25 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { Role } from '../role.decorator';
-import { RoleGuard } from '../role/role.guard';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { JwtGuard } from './jwt.guard';
-import { Usuario } from '@prisma/client';
+import { LoginService } from 'src/login/login.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
 export class AuthController {
 
-    constructor(private authService: AuthService){
-
-    }
+    constructor(
+        private authService: AuthService,
+        private loginService: LoginService,
+    ) {}
 
     @Post('login')
-    async login(@Body() user: Usuario){
-        const validateUser = await this.authService.validateUser(user.nomeUsuario, user.senha,); 
-       return this.authService.login(validateUser);
+    async login(@Body() body){
+        const user = await this.authService.login(body.username, body.password)
+        return { token: user };
     }
 
-    @Role('admin')
-    @UseGuards(JwtGuard, RoleGuard)
-    @Get('test-auth')
-    test(@Req() req){
-        console.log(req.user);
-        return {
-            name: 'Glauber Fernandes'
-        }
+    @UseGuards(AuthGuard('jwt'))
+    @Get('profile')
+    getProfile(@Request() req) {
+      return req.user;
     }
 }

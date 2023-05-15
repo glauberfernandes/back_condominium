@@ -6,10 +6,10 @@ import { PrestadorModule } from './prestador/prestador.module';
 import { OcorrenciaModule } from './ocorrencia/ocorrencia.module';
 import { TelefoneModule } from './telefone/telefone.module';
 import { AuthModule } from './auth/auth.module';
-import { UsuarioModule } from './usuario/usuario.module';
+import { LoginModule } from './login/login.module';
 
 @Module({
-  imports: [VisitanteModule, MoradorModule, PrestadorModule, OcorrenciaModule, TelefoneModule, AuthModule, UsuarioModule],
+  imports: [VisitanteModule, MoradorModule, PrestadorModule, OcorrenciaModule, TelefoneModule, AuthModule, LoginModule],
   controllers: [],
   providers: [PrismaService],
 })

@@ -1,34 +1,33 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsuarioService } from 'src/usuario/usuario.service';
+import { LoginService } from 'src/login/login.service';
 import * as bcrypt from 'bcrypt';
-import { Usuario } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-    constructor(private jwtService: JwtService, private usuarioService: UsuarioService){}
+  constructor(
+    private loginService: LoginService,
+    private jwtService: JwtService,
+  ) { }
 
-    async validateUser(username: string, password: string): Promise<any> {
+  async validateCredentials(username: string, password: string) {
+    const user = await this.loginService.findUser(username, password);
 
-      const user = await this.usuarioService.findUser(username);
-
-      if (!user || bcrypt.compareSync(user.senha, password)) {
-        throw new UnauthorizedException('Invalid credentials');
-      }
-      return user;
+    if (!user || !bcrypt.compareSync(password, user.senha)) {
+      throw new Error('Credenciais inválidas');
     }
-  
-    async login(user: Usuario) {
 
-      const payload = {
-        sub: user.idUsuario,
-        username: user.nomeUsuario,
-        role: user.role,
-      };
+    return user;
+  }
 
-      const token = await this.jwtService.signAsync(payload);
-
-      return { token };
+  async login(username: string, password: string) {
+    const user = await this.validateCredentials(username, password);
+    
+    const payload = {
+      sub: user.idLogin,
+      username: user.nomeUsuario
     }
+    return this.jwtService.sign(payload)
+  }
 
 }
