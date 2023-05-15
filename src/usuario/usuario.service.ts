@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PrismaService } from 'src/conexao/PrismaService';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuarioService {
@@ -15,13 +16,20 @@ export class UsuarioService {
     return await this.prisma.usuario.findMany();
   }
 
-  async findUser(nomeUsuario: string){
+  async findUser(nomeUsuario: string, senha: string){
     const user = await this.prisma.usuario.findUnique({
       where: {
-          nomeUsuario
+        nomeUsuario
       }
-    }); 
+    });
 
+    if (!user) {
+      console.log('Usuario não encontrado');
+    }
+
+    if (!bcrypt.compareSync(senha, user.senha)) {
+      throw new Error('Credenciais inválidas');
+    }
     return user;
   }
 
