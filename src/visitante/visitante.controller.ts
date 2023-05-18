@@ -1,11 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { VisitanteService } from './visitante.service';
 import { CreateVisitanteDto } from './dto/create-visitante.dto';
 import { UpdateVisitanteDto } from './dto/update-visitante.dto';
 
+
 @Controller('visitante')
 export class VisitanteController {
   constructor(private readonly visitanteService: VisitanteService) {}
+
+  @Post('upload')
+  async uploadFile(@Body() createVisitanteDto: CreateVisitanteDto) {
+    return this.visitanteService.createCSV(createVisitanteDto);
+  }
 
   @Post()
   create(@Body() createVisitanteDto: CreateVisitanteDto) {
