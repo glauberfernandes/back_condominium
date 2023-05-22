@@ -2,47 +2,49 @@ import { Injectable, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { CreateVisitanteDto } from './dto/create-visitante.dto';
 import { UpdateVisitanteDto } from './dto/update-visitante.dto';
 import { PrismaService } from 'src/conexao/PrismaService';
-import { FileInterceptor } from '@nestjs/platform-express';
 import * as fs from 'fs'
 import * as csv from 'csv-parser';
 
 @Injectable()
 export class VisitanteService {
   constructor(private prisma: PrismaService) { }
-  //'/home/wesley/Documentos/projetos-pessoais/visitante.csv'
 
-  @UseInterceptors(FileInterceptor('file'))
-  async createCSV(@UploadedFile() file) {
+  async createCSV(file: { destination: any; filename: any; }) {
+    const filePath = `${file.destination}/${file.filename}`;
+    console.log(filePath)
 
-    fs.createReadStream(file.path)
-      .pipe(csv())
-      .on('data', async (data) => { //INFORMAÇÃO QUE VEM DO ARQUIVO CSV
-        // Aqui você pode processar cada linha do arquivo CSV
-
-        let { nomePessoa, documento, empresa, nomePai, nomeMae, email, /*enderecoId,*/  nomeTipo } = data;
-        let arquivoCSV =  await this.prisma.pessoa.create({
-          data: {
-            nomePessoa,
-            documento,
-            empresa,
-            nomePai,
-            nomeMae,
-            email,
-            tipoPessoa: {
-              create: {
-                nomeTipo
-              }
-            }
-          }
+    return new Promise((resolve, reject) => {
+      fs.createReadStream(filePath)
+        .pipe(csv())
+        .on('data', async (data) => {
+          // Processar cada linha do arquivo CSV
+          let { nomePessoa, documento, empresa, nomePai, nomeMae, email, nomeTipo } = data;
+          await this.prisma.pessoa.create({
+            data: {
+              nomePessoa,
+              documento,
+              empresa,
+              nomePai,
+              nomeMae,
+              email,
+              tipoPessoa: {
+                create: {
+                  nomeTipo,
+                },
+              },
+            },
+          });
         })
-      })
-      .on('end', () => {
-        // Aqui você pode executar ações após processar o arquivo CSV completo
-        console.log('Arquivo CSV processado com sucesso.');
-        fs.unlinkSync(file.path);
-      });
-
-    return { message: 'Arquivo CSV enviado e processamento iniciado.' };
+        .on('end', () => {
+          // Ações após processar o arquivo CSV completo
+          console.log('Arquivo CSV processado com sucesso.');
+          fs.unlinkSync(filePath);
+          resolve({ message: 'Arquivo CSV enviado e processamento concluído.' });
+        })
+        .on('error', (error) => {
+          reject(error);
+        });
+    });
   }
 
   async create(createVisitanteDto: CreateVisitanteDto) {
