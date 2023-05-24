@@ -2,15 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInt
 import { VisitanteService } from './visitante.service';
 import { CreateVisitanteDto } from './dto/create-visitante.dto';
 import { UpdateVisitanteDto } from './dto/update-visitante.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('visitante')
 export class VisitanteController {
   constructor(private readonly visitanteService: VisitanteService) {}
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file) {
+    console.log(file);
     return await this.visitanteService.createCSV(file);
   }
 
