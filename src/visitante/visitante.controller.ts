@@ -1,11 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, Res } from '@nestjs/common';
 import { VisitanteService } from './visitante.service';
 import { CreateVisitanteDto } from './dto/create-visitante.dto';
 import { UpdateVisitanteDto } from './dto/update-visitante.dto';
 
+
 @Controller('visitante')
 export class VisitanteController {
-  constructor(private readonly visitanteService: VisitanteService) {}
+  constructor(private readonly visitanteService: VisitanteService) { }
+
+  @Get('pdf')
+  async generatePdf(@Res() res: Response) {
+    return await this.visitanteService.generatePdf();
+  }
 
   @Post('upload')
   async uploadFile(@UploadedFile() file) {
