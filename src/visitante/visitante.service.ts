@@ -11,7 +11,6 @@ export class VisitanteService {
 
   async createCSV(file: { destination: any; filename: any; }) {
     const filePath = `${file.destination}/${file.filename}`;
-    console.log(filePath)
 
     return new Promise((resolve, reject) => {
       fs.createReadStream(filePath)
@@ -48,7 +47,7 @@ export class VisitanteService {
   }
 
   async create(createVisitanteDto: CreateVisitanteDto) {
-    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, /*enderecoId,*/  nomeTipo } = createVisitanteDto;
+    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, DDD, numeroTelefone, nomeTipo } = createVisitanteDto;
     let novoVisitante = await this.prisma.pessoa.create({
       data: {
         nomePessoa,
@@ -57,7 +56,12 @@ export class VisitanteService {
         nomePai,
         nomeMae,
         email,
-        //enderecoId,
+        telefone:{
+          create: {
+            DDD,
+            numeroTelefone
+          }
+        },
         tipoPessoa: {
           create: {
             nomeTipo
