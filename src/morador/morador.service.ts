@@ -8,7 +8,7 @@ export class MoradorService {
   constructor(private prisma: PrismaService) { }
 
   async create(createMoradorDto: CreateMoradorDto) {
-    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, /*enderecoId,*/  nomeTipo } = createMoradorDto;
+    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, quadra, lote, bloco, apartamento, nomeTipo } = createMoradorDto;
     let novoMorador = await this.prisma.pessoa.create({
       data: {
         nomePessoa,
@@ -17,7 +17,14 @@ export class MoradorService {
         nomePai,
         nomeMae,
         email,
-        //enderecoId,
+        Endereco: {
+          create: {
+            quadra,
+            lote,
+            bloco,
+            apartamento
+          }
+        },
         tipoPessoa: {
           create: {
             nomeTipo
@@ -30,6 +37,9 @@ export class MoradorService {
 
   findAll() {
     return this.prisma.pessoa.findMany({
+      include: {
+        Endereco: true
+      },
       orderBy: [{
         nomePessoa: 'asc',
       }],
@@ -43,6 +53,9 @@ export class MoradorService {
 
   findOne(id: number) {
     return this.prisma.pessoa.findUnique({
+      include: {
+        Endereco: true
+      },
       where: {
         idPessoa: id
       }

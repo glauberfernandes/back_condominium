@@ -29,8 +29,21 @@ export class CreateMoradorDto {
     @IsInt()
     @IsEmpty()      
     nomeTipo: string
+    
+    @IsInt()
+    @IsEmpty()      
+    quadra: string
 
     @IsInt()
     @IsEmpty()      
-    enderecoId:number
+    lote: string
+
+    @IsInt()
+    @IsEmpty()      
+    bloco: string
+
+    @IsInt()
+    @IsEmpty()      
+    apartamento: string
+
 }
