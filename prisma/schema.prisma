@@ -28,8 +28,8 @@ model StatusOcorrencia {
 
 model Telefone {
   idTelefone     Int      @id @default(autoincrement())
-  DDD            String
-  numeroTelefone String   @unique
+  DDD            String?
+  numeroTelefone String?  @unique
   pessoas        Pessoa[]
 }
 

@@ -8,10 +8,10 @@ import { UpdateVisitanteDto } from './dto/update-visitante.dto';
 export class VisitanteController {
   constructor(private readonly visitanteService: VisitanteService) { }
 
-  @Get('pdf')
-  async generatePdf(@Res() res: Response) {
-    return await this.visitanteService.generatePdf();
-  }
+  // @Get('pdf')
+  // async generatePdf(@Res() res: Response) {
+  //   return await this.visitanteService.generatePdf();
+  // }
 
   @Post('upload')
   async uploadFile(@UploadedFile() file) {

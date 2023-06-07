@@ -32,11 +32,11 @@ export class CreateVisitanteDto {
 
     @IsInt()
     @IsEmpty()      
-    numeroTelefone: string
+    numeroTelefone?: string
 
     @IsInt()
     @IsEmpty()   
-    DDD: string
+    DDD?: string
 
     @IsInt()
     @IsEmpty()      

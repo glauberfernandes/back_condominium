@@ -11,27 +11,27 @@ import * as csv from 'csv-parser';
 export class VisitanteService {
   constructor(private prisma: PrismaService) { }
 
-  async generatePdf(): Promise<Buffer> {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    const data = '<table><tr><th>Header 1</th><th>Header 2</th></tr><tr><td>Data 1</td><td>Data 2</td></tr></table>';
+  // async generatePdf(): Promise<Buffer> {
+  //   const browser = await puppeteer.launch();
+  //   const page = await browser.newPage();
+  //   const data = '<table><tr><th>Header 1</th><th>Header 2</th></tr><tr><td>Data 1</td><td>Data 2</td></tr></table>';
 
-    await page.setContent(`<html><body>${data}</body></html>`);
-    const pdfBuffer = await page.pdf({ format: 'A4' });
+  //   await page.setContent(`<html><body>${data}</body></html>`);
+  //   const pdfBuffer = await page.pdf({ format: 'A4' });
 
 
-    res.set({
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename="table.pdf"',
-      'Content-Length': pdfBuffer.length.toString(),
-    });
+  //   Response.set({
+  //     'Content-Type': 'application/pdf',
+  //     'Content-Disposition': 'attachment; filename="table.pdf"',
+  //     'Content-Length': pdfBuffer.length.toString(),
+  //   });
 
-    res.send(pdfBuffer);
+  //   Response.send(pdfBuffer);
 
-    await browser.close();
+  //   await browser.close();
 
-    return pdfBuffer;
-  }
+  //   return pdfBuffer;
+  // }
 
   async createCSV(file: { destination: any; filename: any; }) {
     const filePath = `${file.destination}/${file.filename}`;
@@ -41,7 +41,7 @@ export class VisitanteService {
         .pipe(csv())
         .on('data', async (data) => {
           // Processar cada linha do arquivo CSV
-          let { nomePessoa, documento, empresa, nomePai, nomeMae, email, nomeTipo } = data;
+          let { nomePessoa, documento, empresa, nomePai, nomeMae, email, DDD, numeroTelefone, nomeTipo } = data;
           await this.prisma.pessoa.create({
             data: {
               nomePessoa,
@@ -50,6 +50,12 @@ export class VisitanteService {
               nomePai,
               nomeMae,
               email,
+              telefone: {
+                create: {
+                  DDD,
+                  numeroTelefone
+                }
+              },
               tipoPessoa: {
                 create: {
                   nomeTipo,
@@ -83,7 +89,7 @@ export class VisitanteService {
         telefone: {
           create: {
             DDD,
-            numeroTelefone
+            numeroTelefone,
           }
         },
         tipoPessoa: {
