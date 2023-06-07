@@ -1,8 +1,7 @@
-import { Injectable, Res } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateVisitanteDto } from './dto/create-visitante.dto';
 import { UpdateVisitanteDto } from './dto/update-visitante.dto';
 import { PrismaService } from 'src/conexao/PrismaService';
-import { Response } from 'express';
 import puppeteer from 'puppeteer';
 import * as fs from 'fs'
 import * as csv from 'csv-parser';
