@@ -34,9 +34,12 @@ export class LoginService {
 
   async findUser(nomeUsuario: string, senha: string) {
 
+    console.log(typeof senha)
+
+    let nome = nomeUsuario.toString()
     const user = await this.prisma.login.findUnique({
       where: {
-        nomeUsuario
+        nomeUsuario: nome
       }
     });
 

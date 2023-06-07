@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, Res, UseGuards } from '@nestjs/common';
 import { VisitanteService } from './visitante.service';
 import { CreateVisitanteDto } from './dto/create-visitante.dto';
 import { UpdateVisitanteDto } from './dto/update-visitante.dto';
+import { JwtGuard } from 'src/auth/auth/jwt.guard';
 
 
 @Controller('visitante')
@@ -24,6 +25,7 @@ export class VisitanteController {
     return this.visitanteService.create(createVisitanteDto);
   }
 
+  @UseGuards(JwtGuard)
   @Get()
   findAll() {
     return this.visitanteService.findAll();
