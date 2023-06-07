@@ -1,8 +1,7 @@
-import { Injectable, Res } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateVisitanteDto } from './dto/create-visitante.dto';
 import { UpdateVisitanteDto } from './dto/update-visitante.dto';
 import { PrismaService } from 'src/conexao/PrismaService';
-import { Response } from 'express';
 import puppeteer from 'puppeteer';
 import * as fs from 'fs'
 import * as csv from 'csv-parser';
@@ -11,14 +10,19 @@ import * as csv from 'csv-parser';
 export class VisitanteService {
   constructor(private prisma: PrismaService) { }
 
-  async generatePdf(): Promise<Buffer> {
-    const browser = await puppeteer.launch();
+  async generatePdf(res) {
+    const browser = await puppeteer.launch({
+      headless: true,
+    });
     const page = await browser.newPage();
-    const data = '<table><tr><th>Header 1</th><th>Header 2</th></tr><tr><td>Data 1</td><td>Data 2</td></tr></table>';
+    //const data = '<table><tr><th>Header 1</th><th>Header 2</th></tr><tr><td>Data 1</td><td>Data 2</td></tr></table>';
+    const url = 'http://localhost:3001/visitantes'
 
-    await page.setContent(`<html><body>${data}</body></html>`);
+    await page.goto(url, {
+      waitUntil: 'networkidle0'
+    });
+
     const pdfBuffer = await page.pdf({ format: 'A4' });
-
 
     res.set({
       'Content-Type': 'application/pdf',

@@ -10,7 +10,7 @@ export class VisitanteController {
 
   @Get('pdf')
   async generatePdf(@Res() res: Response) {
-    return await this.visitanteService.generatePdf();
+    return await this.visitanteService.generatePdf(res);
   }
 
   @Post('upload')
