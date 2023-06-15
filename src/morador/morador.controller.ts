@@ -17,6 +17,11 @@ export class MoradorController {
     return this.moradorService.findAll();
   }
 
+  @Get('/totalMoradores')
+  totalMoradores() {
+    return this.moradorService.totalMoradores();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.moradorService.findOne(+id);

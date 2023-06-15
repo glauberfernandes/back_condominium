@@ -17,6 +17,11 @@ export class OcorrenciaController {
     return this.ocorrenciaService.findAll();
   }
 
+  @Get('/totalOcorrencias')
+  totalOcorrencias() {
+    return this.ocorrenciaService.totalOcorrencias();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.ocorrenciaService.findOne(+id);

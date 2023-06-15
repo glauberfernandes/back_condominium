@@ -6,6 +6,9 @@ export class CreateLoginDto {
     @IsString()
     senha: string       
 
+    @IsString()
+    nomeCompleto: string
+
     @IsDateString()
     exp: Date
 }

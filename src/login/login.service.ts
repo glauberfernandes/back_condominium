@@ -9,7 +9,7 @@ export class LoginService {
   constructor(private prisma: PrismaService) { }
 
   async createNewUser(createLoginDto: CreateLoginDto) {
-    let { nomeUsuario, senha, exp } = createLoginDto;
+    let { nomeUsuario, senha, nomeCompleto, exp } = createLoginDto;
     const saltRounds = 10;
     const hash = bcrypt.hashSync(senha, saltRounds);
 
@@ -17,6 +17,7 @@ export class LoginService {
       data: {
         nomeUsuario,
         senha: hash,
+        nomeCompleto,
         exp
       }
     });
@@ -37,11 +38,14 @@ export class LoginService {
     console.log(typeof senha)
 
     let nome = nomeUsuario.toString()
+
     const user = await this.prisma.login.findUnique({
       where: {
         nomeUsuario: nome
       }
     });
+
+    console.log(user)
 
     if (!user) {
       console.log('Usuario não encontrado');
@@ -50,6 +54,9 @@ export class LoginService {
     if (!bcrypt.compareSync(senha, user.senha)) {
       throw new Error('Credenciais inválidas');
     }
+
+    console.log(user)
+
     return user;
   }
 

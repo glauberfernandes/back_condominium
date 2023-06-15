@@ -29,6 +29,10 @@ export class OcorrenciaService {
       return novaOcorrencia;
   }
 
+  async totalOcorrencias() {
+    return this.prisma.ocorrencia.count()
+  }
+
   async findAll() {
     let lista = await this.prisma.ocorrencia.findMany({
       select:{
