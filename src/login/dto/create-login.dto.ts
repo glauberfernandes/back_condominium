@@ -1,14 +1,17 @@
-import { IsString, IsDateString } from 'class-validator'
+import { IsString, IsDateString } from 'class-validator';
 export class CreateLoginDto {
-    @IsString()
-    nomeUsuario: string
-    
-    @IsString()
-    senha: string       
+  @IsString()
+  nomeUsuario: string;
 
-    @IsString()
-    nomeCompleto: string
+  @IsString()
+  senha: string;
 
-    @IsDateString()
-    exp: Date
+  @IsString()
+  nomeCompleto: string;
+
+  @IsString()
+  role: string;
+
+  @IsDateString()
+  exp: Date;
 }

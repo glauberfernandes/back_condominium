@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { LoginService } from './login.service';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { UpdateLoginDto } from './dto/update-login.dto';
@@ -23,10 +31,12 @@ export class LoginController {
   }
 
   @Get(':nomeUsuario/:senha')
-  async findUser(@Param('nomeUsuario') nomeUsuario: string, @Param('senha') senha: string) {
+  async findUser(
+    @Param('nomeUsuario') nomeUsuario: string,
+    @Param('senha') senha: string,
+  ) {
     return await this.loginService.findUser(nomeUsuario, senha);
   }
-
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateLoginDto: UpdateLoginDto) {

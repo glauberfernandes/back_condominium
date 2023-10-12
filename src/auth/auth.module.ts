@@ -14,10 +14,10 @@ import { PassportModule } from '@nestjs/passport';
       secret: 'process.env.SECRET',
       signOptions: {
         expiresIn: '1d',
-      }
-    })
+      },
+    }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, LoginService, PrismaService]
+  providers: [AuthService, JwtStrategy, LoginService, PrismaService],
 })
 export class AuthModule {}

@@ -5,6 +5,6 @@ import { PrismaService } from 'src/conexao/PrismaService';
 
 @Module({
   controllers: [LoginController],
-  providers: [LoginService, PrismaService]
+  providers: [LoginService, PrismaService],
 })
 export class LoginModule {}

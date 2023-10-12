@@ -105,15 +105,8 @@ model Previsao {
 
 model Login {
   idLogin      Int      @id @default(autoincrement())
-  nomeUsuario  String   @unique
+  nomeUsuario  String
   senha        String   @unique
-  nomeCompleto String
-  exp          DateTime
-}
-
-model Usuario {
-  idUsuario   Int    @id @default(autoincrement())
-  nomeUsuario String @unique
-  senha       String @unique
-  role        String
+  role         String?  
+  exp          DateTime @default(now())
 }

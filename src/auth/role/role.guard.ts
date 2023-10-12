@@ -4,15 +4,13 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
-  constructor(private reflector: Reflector){
-
-  }
+  constructor(private reflector: Reflector) {}
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const role = this.reflector.get('role', context.getHandler());
-    if(!role){
+    if (!role) {
       return true;
     }
     const request = context.switchToHttp().getRequest();
