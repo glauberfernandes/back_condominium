@@ -1,12 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UploadedFile,
+} from '@nestjs/common';
 import { VisitanteService } from './visitante.service';
 import { CreateVisitanteDto } from './dto/create-visitante.dto';
 import { UpdateVisitanteDto } from './dto/update-visitante.dto';
-
+//import { JwtGuard } from 'src/auth/auth/jwt.guard';
 
 @Controller('visitante')
 export class VisitanteController {
-  constructor(private readonly visitanteService: VisitanteService) { }
+  constructor(private readonly visitanteService: VisitanteService) {}
 
   // @Get('pdf')
   // async generatePdf(@Res() res: Response) {
@@ -15,7 +24,6 @@ export class VisitanteController {
 
   @Post('upload')
   async uploadFile(@UploadedFile() file) {
-    console.log(file);
     return await this.visitanteService.createCSV(file);
   }
 
@@ -35,7 +43,10 @@ export class VisitanteController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateVisitanteDto: UpdateVisitanteDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateVisitanteDto: UpdateVisitanteDto,
+  ) {
     return this.visitanteService.update(+id, updateVisitanteDto);
   }
 

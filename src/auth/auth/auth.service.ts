@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginService } from 'src/login/login.service';
-import * as bcrypt from 'bcrypt';
+//import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -12,11 +12,11 @@ export class AuthService {
 
   async validateCredentials(username: string, password: string) {
     const user = await this.loginService.findUser(username, password);
+    console.log(user);
 
-    if (!user || !bcrypt.compareSync(password, user.senha)) {
+    if (!user) {
       throw new Error('Credenciais inválidas');
     }
-
     return user;
   }
 
@@ -26,6 +26,8 @@ export class AuthService {
     const payload = {
       sub: user.idLogin,
       username: user.nomeUsuario,
+      password: user.senha,
+      type: user.role,
     };
     return this.jwtService.sign(payload);
   }

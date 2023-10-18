@@ -35,6 +35,17 @@ export class MoradorService {
     return novoMorador;
   }
 
+  totalMoradores() {
+    return this.prisma.pessoa.count({
+      where: {
+        tipoPessoa: {
+          nomeTipo: 'morador'
+        }
+      }
+    })
+    
+  }
+
   findAll() {
     return this.prisma.pessoa.findMany({
       include: {

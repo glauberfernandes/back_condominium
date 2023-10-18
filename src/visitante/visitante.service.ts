@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { CreateVisitanteDto } from './dto/create-visitante.dto';
 import { UpdateVisitanteDto } from './dto/update-visitante.dto';
 import { PrismaService } from 'src/conexao/PrismaService';
-import puppeteer from 'puppeteer';
-import * as fs from 'fs'
+//import puppeteer from 'puppeteer';
+import * as fs from 'fs';
 import * as csv from 'csv-parser';
 
 @Injectable()
 export class VisitanteService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   // async generatePdf(): Promise<Buffer> {
   //   const browser = await puppeteer.launch();
@@ -17,7 +17,6 @@ export class VisitanteService {
 
   //   await page.setContent(`<html><body>${data}</body></html>`);
   //   const pdfBuffer = await page.pdf({ format: 'A4' });
-
 
   //   Response.set({
   //     'Content-Type': 'application/pdf',
@@ -32,7 +31,7 @@ export class VisitanteService {
   //   return pdfBuffer;
   // }
 
-  async createCSV(file: { destination: any; filename: any; }) {
+  async createCSV(file: { destination: any; filename: any }) {
     const filePath = `${file.destination}/${file.filename}`;
 
     return new Promise((resolve, reject) => {
@@ -40,7 +39,17 @@ export class VisitanteService {
         .pipe(csv())
         .on('data', async (data) => {
           // Processar cada linha do arquivo CSV
-          let { nomePessoa, documento, empresa, nomePai, nomeMae, email, DDD, numeroTelefone, nomeTipo } = data;
+          const {
+            nomePessoa,
+            documento,
+            empresa,
+            nomePai,
+            nomeMae,
+            email,
+            DDD,
+            numeroTelefone,
+            nomeTipo,
+          } = data;
           await this.prisma.pessoa.create({
             data: {
               nomePessoa,
@@ -52,8 +61,8 @@ export class VisitanteService {
               telefone: {
                 create: {
                   DDD,
-                  numeroTelefone
-                }
+                  numeroTelefone,
+                },
               },
               tipoPessoa: {
                 create: {
@@ -67,7 +76,9 @@ export class VisitanteService {
           // Ações após processar o arquivo CSV completo
           console.log('Arquivo CSV processado com sucesso.');
           fs.unlinkSync(filePath);
-          resolve({ message: 'Arquivo CSV enviado e processamento concluído.' });
+          resolve({
+            message: 'Arquivo CSV enviado e processamento concluído.',
+          });
         })
         .on('error', (error) => {
           reject(error);
@@ -76,8 +87,19 @@ export class VisitanteService {
   }
 
   async create(createVisitanteDto: CreateVisitanteDto) {
-    let { nomePessoa, documento, empresa, nomePai, nomeMae, email, DDD, numeroTelefone, nomeTipo } = createVisitanteDto;
-    let novoVisitante = await this.prisma.pessoa.create({
+    const {
+      nomePessoa,
+      documento,
+      empresa,
+      nomePai,
+      nomeMae,
+      email,
+      DDD,
+      numeroTelefone,
+      nomeTipo,
+    } = createVisitanteDto;
+
+    const novoVisitante = await this.prisma.pessoa.create({
       data: {
         nomePessoa,
         documento,
@@ -89,49 +111,53 @@ export class VisitanteService {
           create: {
             DDD,
             numeroTelefone,
-          }
+          },
         },
         tipoPessoa: {
           create: {
-            nomeTipo
-          }
-        }
-      }
+            nomeTipo,
+          },
+        },
+      },
     });
     return novoVisitante;
   }
 
   async findAll() {
     return await this.prisma.pessoa.findMany({
-      orderBy: [{
-        nomePessoa: 'asc',
-      }],
+      orderBy: [
+        {
+          nomePessoa: 'asc',
+        },
+      ],
       where: {
         tipoPessoa: {
-          nomeTipo: 'visitante'
-        }
-      }
-
-    })
+          nomeTipo: 'visitante',
+        },
+      },
+    });
   }
 
   async findOne(id: number) {
     return await this.prisma.pessoa.findUnique({
       where: {
-        idPessoa: id
-      }
+        idPessoa: id,
+      },
     });
   }
 
   async update(id: number, updateVisitanteDto: UpdateVisitanteDto) {
-    return await this.prisma.pessoa.update({ where: { idPessoa: id }, data: updateVisitanteDto });
+    return await this.prisma.pessoa.update({
+      where: { idPessoa: id },
+      data: updateVisitanteDto,
+    });
   }
 
   async remove(id: number) {
     return await this.prisma.pessoa.delete({
       where: {
-        idPessoa: id
-      }
+        idPessoa: id,
+      },
     });
   }
 }

@@ -6,19 +6,20 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class LoginService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async createNewUser(createLoginDto: CreateLoginDto) {
-    let { nomeUsuario, senha, exp } = createLoginDto;
+    const { nomeUsuario, senha, role, exp } = createLoginDto;
     const saltRounds = 10;
     const hash = bcrypt.hashSync(senha, saltRounds);
 
-    let novoLogin = await this.prisma.login.create({
+    const novoLogin = await this.prisma.login.create({
       data: {
         nomeUsuario,
         senha: hash,
-        exp
-      }
+        role,
+        exp,
+      },
     });
 
     return novoLogin;
@@ -33,29 +34,37 @@ export class LoginService {
   }
 
   async findUser(nomeUsuario: string, senha: string) {
-
-    const user = await this.prisma.login.findUnique({
+    const user = await this.prisma.login.findFirst({
       where: {
-        nomeUsuario
-      }
+        nomeUsuario,
+      },
     });
 
     if (!user) {
-      console.log('Usuario não encontrado');
+      throw new Error('Usuário não encontrado');
     }
 
+    if (user.role === 'Morador') {
+      throw new Error('Usuário não é um porteiro');
+    }
+
+    // Compara a senha fornecida com a senha armazenada no usuário
     if (!bcrypt.compareSync(senha, user.senha)) {
       throw new Error('Credenciais inválidas');
     }
+
     return user;
   }
-
 
   async update(id: number, updateLoginDto: UpdateLoginDto) {
     return `This action updates a #${id} login`;
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} login`;
+    return this.prisma.login.delete({
+      where: {
+        idLogin: id,
+      },
+    });
   }
 }
