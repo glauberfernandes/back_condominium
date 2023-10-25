@@ -44,11 +44,10 @@ export class LoginService {
       throw new Error('Usuário não encontrado');
     }
 
-    if (user.role === 'Morador') {
-      throw new Error('Usuário não é um porteiro');
+    if (user && user.role !== 'Morador') {
+      throw new Error('Acesso não autorizado!');
     }
 
-    // Compara a senha fornecida com a senha armazenada no usuário
     if (!bcrypt.compareSync(senha, user.senha)) {
       throw new Error('Credenciais inválidas');
     }
