@@ -49,7 +49,7 @@ export class LoginService {
     }
 
     if (!bcrypt.compareSync(senha, user.senha)) {
-      throw new Error('Credenciais inválidas');
+      throw new Error('Credenciais inválidas login');
     }
 
     return user;

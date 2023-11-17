@@ -14,7 +14,7 @@ export class AuthService {
     const user = await this.loginService.findUser(username, password);
 
     if (!user) {
-      throw new Error('Credenciais inválidas');
+      throw new Error('Credenciais inválidas auth');
     }
     return user;
   }
