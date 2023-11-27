@@ -44,9 +44,9 @@ export class LoginService {
       throw new Error('Usuário não encontrado');
     }
 
-    if (user && user.role !== 'Morador') {
+    /*if (user && user.role !== 'Morador') {
       throw new Error('Acesso não autorizado!');
-    }
+    }*/
 
     if (!bcrypt.compareSync(senha, user.senha)) {
       throw new Error('Credenciais inválidas login');
@@ -56,7 +56,20 @@ export class LoginService {
   }
 
   async update(id: number, updateLoginDto: UpdateLoginDto) {
-    return `This action updates a #${id} login`;
+    const { nomeUsuario, senha, role } = updateLoginDto;
+    const saltRounds = 10;
+    const hash = bcrypt.hashSync(senha, saltRounds);
+
+    const updateLogin = await this.prisma.login.update({
+      where: { idLogin: id },
+      data: {
+        nomeUsuario,
+        senha: hash,
+        role
+      }
+    });
+
+    return updateLogin;
   }
 
   async remove(id: number) {

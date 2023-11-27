@@ -15,7 +15,7 @@ import { UpdateLoginDto } from './dto/update-login.dto';
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
-  @Post('novoUsuario')
+  @Post()
   createNewUser(@Body() createLoginDto: CreateLoginDto) {
     return this.loginService.createNewUser(createLoginDto);
   }
@@ -35,7 +35,9 @@ export class LoginController {
     @Param('nomeUsuario') nomeUsuario: string,
     @Param('senha') senha: string,
   ) {
-    return await this.loginService.findUser(nomeUsuario, senha);
+    return await this.loginService.findUser(nomeUsuario, senha).catch((e) => {
+      console.log('' + e);
+    });
   }
 
   @Patch(':id')
