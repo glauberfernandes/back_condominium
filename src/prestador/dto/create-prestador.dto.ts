@@ -1,36 +1,35 @@
-import { IsString, IsEmpty, IsInt } from "class-validator";
+import { IsString, IsEmpty, IsInt } from 'class-validator';
 
 export class CreatePrestadorDto {
+  @IsString()
+  @IsEmpty()
+  nomePessoa: string;
 
-    @IsString()
-    @IsEmpty()
-    nomePessoa: string;   
-    
-    @IsString()
-    @IsEmpty()
-    documento: string;
+  @IsString()
+  @IsEmpty()
+  documento: string;
 
-    @IsString()
-    @IsEmpty()
-    empresa: string
-    
-    @IsString()
-    @IsEmpty()
-    nomePai: string;
+  @IsString()
+  @IsEmpty()
+  empresa: string;
 
-    @IsString()
-    @IsEmpty()      
-    nomeMae:string
+  @IsString()
+  @IsEmpty()
+  nomePai: string;
 
-    @IsString()
-    @IsEmpty()      
-    email:string
+  @IsString()
+  @IsEmpty()
+  nomeMae: string;
 
-    @IsInt()
-    @IsEmpty()      
-    nomeTipo: string
+  @IsString()
+  @IsEmpty()
+  email: string;
 
-    @IsInt()
-    @IsEmpty()      
-    enderecoId:number
+  @IsInt()
+  @IsEmpty()
+  nomeTipo: string;
+
+  @IsInt()
+  @IsEmpty()
+  enderecoId: number;
 }

@@ -1,49 +1,47 @@
-import { IsString, IsEmpty, IsInt } from "class-validator";
+import { IsString, IsEmpty, IsInt } from 'class-validator';
 
 export class CreateMoradorDto {
+  @IsString()
+  @IsEmpty()
+  nomePessoa: string;
 
-    @IsString()
-    @IsEmpty()
-    nomePessoa: string;   
-    
-    @IsString()
-    @IsEmpty()
-    documento: string;
+  @IsString()
+  @IsEmpty()
+  documento: string;
 
-    @IsString()
-    @IsEmpty()
-    empresa: string
-    
-    @IsString()
-    @IsEmpty()
-    nomePai: string;
+  @IsString()
+  @IsEmpty()
+  empresa: string;
 
-    @IsString()
-    @IsEmpty()      
-    nomeMae:string
+  @IsString()
+  @IsEmpty()
+  nomePai: string;
 
-    @IsString()
-    @IsEmpty()      
-    email:string
+  @IsString()
+  @IsEmpty()
+  nomeMae: string;
 
-    @IsInt()
-    @IsEmpty()      
-    nomeTipo: string
-    
-    @IsInt()
-    @IsEmpty()      
-    quadra: string
+  @IsString()
+  @IsEmpty()
+  email: string;
 
-    @IsInt()
-    @IsEmpty()      
-    lote: string
+  @IsInt()
+  @IsEmpty()
+  nomeTipo: string;
 
-    @IsInt()
-    @IsEmpty()      
-    bloco: string
+  @IsInt()
+  @IsEmpty()
+  quadra: string;
 
-    @IsInt()
-    @IsEmpty()      
-    apartamento: string
+  @IsInt()
+  @IsEmpty()
+  lote: string;
 
+  @IsInt()
+  @IsEmpty()
+  bloco: string;
+
+  @IsInt()
+  @IsEmpty()
+  apartamento: string;
 }

@@ -1,24 +1,23 @@
-import { IsString, IsEmpty } from "class-validator";
+import { IsString, IsEmpty } from 'class-validator';
 
 export class CreateOcorrenciaDto {
-    @IsString()
-    @IsEmpty()
-    nomePorteiro: string;   
-    
-    @IsString()
-    @IsEmpty()
-    descOcorrencia: string;
+  @IsString()
+  @IsEmpty()
+  nomePorteiro: string;
 
-    @IsString()
-    @IsEmpty()
-    dataOcorrencia: Date;
+  @IsString()
+  @IsEmpty()
+  descOcorrencia: string;
 
-    @IsString()
-    @IsEmpty()
-    descTipoOcorrencia: string;
+  @IsString()
+  @IsEmpty()
+  dataOcorrencia: Date;
 
-    @IsString()
-    @IsEmpty()
-    descStatusOcorrencia: string;
+  @IsString()
+  @IsEmpty()
+  descTipoOcorrencia: string;
 
+  @IsString()
+  @IsEmpty()
+  descStatusOcorrencia: string;
 }

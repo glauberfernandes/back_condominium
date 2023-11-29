@@ -69,7 +69,8 @@ model Destino {
   dhEntrada   DateTime
   dhSaida     DateTime
   enderecoId  Int
-  endereco    Endereco @relation(fields: [enderecoId], references: [idEndereco])
+  endereco    Endereco  @relation(fields: [enderecoId], references: [idEndereco])
+  visita      Pessoa    @relation(fields: [idDestino], references: [idPessoa])
 }
 
 model TipoPessoa {
@@ -93,6 +94,7 @@ model Pessoa {
   Endereco     Endereco?  @relation(fields: [enderecoId], references: [idEndereco])
   telefone     Telefone[]
   veiculos     Veiculo[]
+  visita       Destino[]
 }
 
 model Previsao {
