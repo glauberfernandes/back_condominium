@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { VisitasService } from './visitas.services';
 import { CreateVisitasDto } from './dto/create-visitas.dto';
 
@@ -11,8 +11,8 @@ export class VisitasController {
     return this.visitasService.create(createVisitanteDto);
   }
 
-  @Get()
-  findAll() {
-    return this.visitasService.findAll();
+  @Get(':id')
+  findAll(@Param('id') id: string) {
+    return this.visitasService.findAll(+id);
   }
 }

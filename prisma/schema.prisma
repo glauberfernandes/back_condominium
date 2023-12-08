@@ -70,14 +70,8 @@ model Destino {
   dhSaida     DateTime
   enderecoId  Int
   endereco    Endereco  @relation(fields: [enderecoId], references: [idEndereco])
-  visita      Pessoa    @relation(fields: [idDestino], references: [idPessoa])
-}
-
-model TipoPessoa {
-  idTipoPessoa   Int      @id @default(autoincrement())
-  nomeTipo       String
-  descTipoPessoa String?
-  pessoas        Pessoa[]
+  pessoaId    Int      // Adição do campo idPessoa para representar a relação
+  pessoas     Pessoa   @relation(fields: [pessoaId], references: [idPessoa])
 }
 
 model Pessoa {
@@ -95,6 +89,13 @@ model Pessoa {
   telefone     Telefone[]
   veiculos     Veiculo[]
   visita       Destino[]
+}
+
+model TipoPessoa {
+  idTipoPessoa   Int      @id @default(autoincrement())
+  nomeTipo       String
+  descTipoPessoa String?
+  pessoas        Pessoa[]
 }
 
 model Previsao {

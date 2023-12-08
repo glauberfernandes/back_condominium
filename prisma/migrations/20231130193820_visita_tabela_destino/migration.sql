@@ -1,20 +1,24 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "Tipo_Ocorrencia" (
+    "idTipoOcorrencia" SERIAL NOT NULL,
+    "descTipoOcorrencia" TEXT NOT NULL,
 
-  - A unique constraint covering the columns `[descStatusOcorrencia]` on the table `Status_Ocorrencia` will be added. If there are existing duplicate values, this will fail.
-  - A unique constraint covering the columns `[descTipoOcorrencia]` on the table `Tipo_Ocorrencia` will be added. If there are existing duplicate values, this will fail.
+    CONSTRAINT "Tipo_Ocorrencia_pkey" PRIMARY KEY ("idTipoOcorrencia")
+);
 
-*/
--- AlterTable
-ALTER TABLE "Status_Ocorrencia" ALTER COLUMN "descStatusOcorrencia" SET DATA TYPE TEXT;
+-- CreateTable
+CREATE TABLE "Status_Ocorrencia" (
+    "idStatusOcorrencia" SERIAL NOT NULL,
+    "descStatusOcorrencia" TEXT NOT NULL,
 
--- AlterTable
-ALTER TABLE "Tipo_Ocorrencia" ALTER COLUMN "descTipoOcorrencia" SET DATA TYPE TEXT;
+    CONSTRAINT "Status_Ocorrencia_pkey" PRIMARY KEY ("idStatusOcorrencia")
+);
 
 -- CreateTable
 CREATE TABLE "Telefone" (
     "idTelefone" SERIAL NOT NULL,
-    "numeroTelefone" TEXT NOT NULL,
+    "DDD" TEXT,
+    "numeroTelefone" TEXT,
 
     CONSTRAINT "Telefone_pkey" PRIMARY KEY ("idTelefone")
 );
@@ -67,7 +71,7 @@ CREATE TABLE "Destino" (
 -- CreateTable
 CREATE TABLE "TipoPessoa" (
     "idTipoPessoa" SERIAL NOT NULL,
-    "nomePessoa" TEXT NOT NULL,
+    "nomeTipo" TEXT NOT NULL,
     "descTipoPessoa" TEXT,
 
     CONSTRAINT "TipoPessoa_pkey" PRIMARY KEY ("idTipoPessoa")
@@ -83,9 +87,31 @@ CREATE TABLE "Pessoa" (
     "nomeMae" VARCHAR(255),
     "email" VARCHAR(100),
     "tipoPessoaId" INTEGER NOT NULL,
-    "enderecoId" INTEGER NOT NULL,
+    "enderecoId" INTEGER,
 
     CONSTRAINT "Pessoa_pkey" PRIMARY KEY ("idPessoa")
+);
+
+-- CreateTable
+CREATE TABLE "Previsao" (
+    "idPrevisao" SERIAL NOT NULL,
+    "dataVisita" TIMESTAMP(3) NOT NULL,
+    "totalPessoas" INTEGER NOT NULL,
+    "chuva" BOOLEAN NOT NULL,
+    "evento" BOOLEAN NOT NULL,
+
+    CONSTRAINT "Previsao_pkey" PRIMARY KEY ("idPrevisao")
+);
+
+-- CreateTable
+CREATE TABLE "Login" (
+    "idLogin" SERIAL NOT NULL,
+    "nomeUsuario" TEXT NOT NULL,
+    "senha" TEXT NOT NULL,
+    "role" TEXT,
+    "exp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Login_pkey" PRIMARY KEY ("idLogin")
 );
 
 -- CreateTable
@@ -110,9 +136,6 @@ CREATE UNIQUE INDEX "Veiculo_placa_key" ON "Veiculo"("placa");
 CREATE UNIQUE INDEX "Destino_descDestino_key" ON "Destino"("descDestino");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "TipoPessoa_nomePessoa_key" ON "TipoPessoa"("nomePessoa");
-
--- CreateIndex
 CREATE UNIQUE INDEX "_PessoaToTelefone_AB_unique" ON "_PessoaToTelefone"("A", "B");
 
 -- CreateIndex
@@ -124,12 +147,6 @@ CREATE UNIQUE INDEX "_PessoaToVeiculo_AB_unique" ON "_PessoaToVeiculo"("A", "B")
 -- CreateIndex
 CREATE INDEX "_PessoaToVeiculo_B_index" ON "_PessoaToVeiculo"("B");
 
--- CreateIndex
-CREATE UNIQUE INDEX "Status_Ocorrencia_descStatusOcorrencia_key" ON "Status_Ocorrencia"("descStatusOcorrencia");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Tipo_Ocorrencia_descTipoOcorrencia_key" ON "Tipo_Ocorrencia"("descTipoOcorrencia");
-
 -- AddForeignKey
 ALTER TABLE "Ocorrencia" ADD CONSTRAINT "Ocorrencia_tipoOcorrenciaId_fkey" FOREIGN KEY ("tipoOcorrenciaId") REFERENCES "Tipo_Ocorrencia"("idTipoOcorrencia") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -140,10 +157,13 @@ ALTER TABLE "Ocorrencia" ADD CONSTRAINT "Ocorrencia_statusOcorrenciaId_fkey" FOR
 ALTER TABLE "Destino" ADD CONSTRAINT "Destino_enderecoId_fkey" FOREIGN KEY ("enderecoId") REFERENCES "Endereco"("idEndereco") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Destino" ADD CONSTRAINT "Destino_idDestino_fkey" FOREIGN KEY ("idDestino") REFERENCES "Pessoa"("idPessoa") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Pessoa" ADD CONSTRAINT "Pessoa_tipoPessoaId_fkey" FOREIGN KEY ("tipoPessoaId") REFERENCES "TipoPessoa"("idTipoPessoa") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Pessoa" ADD CONSTRAINT "Pessoa_enderecoId_fkey" FOREIGN KEY ("enderecoId") REFERENCES "Endereco"("idEndereco") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Pessoa" ADD CONSTRAINT "Pessoa_enderecoId_fkey" FOREIGN KEY ("enderecoId") REFERENCES "Endereco"("idEndereco") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_PessoaToTelefone" ADD CONSTRAINT "_PessoaToTelefone_A_fkey" FOREIGN KEY ("A") REFERENCES "Pessoa"("idPessoa") ON DELETE CASCADE ON UPDATE CASCADE;

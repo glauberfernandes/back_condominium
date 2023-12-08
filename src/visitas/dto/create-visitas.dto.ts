@@ -1,16 +1,16 @@
-import { IsString, IsEmpty } from 'class-validator';
+import { IsString, IsEmpty, IsNotEmpty } from 'class-validator';
 
 export class CreateVisitasDto {
+  nomePessoa: string; //ATRIBUTO DA TABELA PESSOA
+
   @IsString()
   @IsEmpty()
   descDestino: string;
 
-  @IsString()
-  @IsEmpty()
+  @IsNotEmpty()
   dhEntrada: Date;
 
-  @IsString()
-  @IsEmpty()
+  @IsNotEmpty()
   dhSaida: Date;
 
   @IsString()

@@ -7,38 +7,22 @@ export class VisitasService {
   constructor(private prisma: PrismaService) {}
 
   async create(createVisitasDto: CreateVisitasDto) {
-    const {
-      descDestino,
-      dhEntrada,
-      dhSaida,
-      apartamento,
-      bloco,
-      lote,
-      quadra,
-    } = createVisitasDto;
-
-    const novoDestino = await this.prisma.destino.create({
-      data: {
-        descDestino,
-        dhEntrada,
-        dhSaida,
-        endereco: {
-          create: {
-            apartamento,
-            bloco,
-            lote,
-            quadra,
-          },
-        },
-      },
-    });
-
-    return novoDestino;
+    return 'pendente';
   }
 
-  async findAll() {
+  async findAll(idPessoa: number) {
     return await this.prisma.destino.findMany({
+      where: {
+        pessoas: {
+          idPessoa: idPessoa,
+        },
+      },
       include: {
+        pessoas: {
+          select: {
+            nomePessoa: true,
+          },
+        },
         endereco: true,
       },
     });
