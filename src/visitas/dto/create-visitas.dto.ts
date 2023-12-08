@@ -3,6 +3,12 @@ import { IsString, IsEmpty, IsNotEmpty } from 'class-validator';
 export class CreateVisitasDto {
   nomePessoa: string; //ATRIBUTO DA TABELA PESSOA
 
+  documento: string; //ATRIBUTO DA TABELA PESSOA
+
+  nomeTipo: string; //ATRIBUTO DA TABELA PESSOA
+
+  idTipoPessoa: number;
+
   @IsString()
   @IsEmpty()
   descDestino: string;
@@ -15,17 +21,17 @@ export class CreateVisitasDto {
 
   @IsString()
   @IsEmpty()
-  apartamento: string;
+  apartamento: string; //ATRIBUTO DA TABELA ENDEREÇO
 
   @IsString()
   @IsEmpty()
-  bloco: string;
+  bloco: string; //ATRIBUTO DA TABELA ENDEREÇO
 
   @IsString()
   @IsEmpty()
-  lote: string;
+  lote: string; //ATRIBUTO DA TABELA ENDEREÇO
 
   @IsString()
   @IsEmpty()
-  quadra: string;
+  quadra: string; //ATRIBUTO DA TABELA ENDEREÇO
 }
