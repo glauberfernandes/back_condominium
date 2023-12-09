@@ -7,6 +7,10 @@ export class CreateOcorrenciaDto {
 
   @IsString()
   @IsEmpty()
+  descOcorrencia: string;
+
+  @IsString()
+  @IsEmpty()
   dataOcorrencia?: Date;
 
   @IsString()
