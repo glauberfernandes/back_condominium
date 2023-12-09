@@ -46,7 +46,7 @@ model Ocorrencia {
   idOcorrencia       Int              @id @default(autoincrement())
   nomePorteiro       String           @db.VarChar(255)
   descOcorrencia     String           @db.VarChar(500)
-  dataOcorrencia     DateTime
+  dataOcorrencia     DateTime         @default(now())
   tipoOcorrenciaId   Int
   tipoOcorrencia     TipoOcorrencia   @relation(fields: [tipoOcorrenciaId], references: [idTipoOcorrencia])
   statusOcorrenciaId Int
@@ -96,6 +96,7 @@ model TipoPessoa {
   nomeTipo       String
   descTipoPessoa String?
   pessoas        Pessoa[]
+  dtCadastro   DateTime @default(now())
 }
 
 model Previsao {
