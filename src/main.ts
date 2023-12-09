@@ -18,7 +18,7 @@ async function bootstrap() {
 
   app.use(multer({ dest: uploadDirectory }).single('file'));
 
-  await app.listen(porta, () => {
+  await app.listen(process.env.PORT || 3000, () => {
     console.log('Servidor rodando na porta: ' + porta);
   });
 }
