@@ -15,7 +15,7 @@ import { UpdateLoginDto } from './dto/update-login.dto';
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
-  @Post()
+  @Post('novoUsuario')
   createNewUser(@Body() createLoginDto: CreateLoginDto) {
     return this.loginService.createNewUser(createLoginDto);
   }
