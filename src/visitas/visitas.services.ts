@@ -85,7 +85,14 @@ export class VisitasService {
 
   async findAll() {
     return await this.prisma.destino.findMany({
-
+      include: {
+        pessoas: {
+          select: {
+            nomePessoa: true,
+          },
+        },
+        endereco: true,
+      },
     });
   }
 }
