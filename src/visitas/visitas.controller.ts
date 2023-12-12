@@ -6,13 +6,18 @@ import { CreateVisitasDto } from './dto/create-visitas.dto';
 export class VisitasController {
   constructor(private readonly visitasService: VisitasService) {}
 
+  @Get()
+  findAll() {
+    return this.visitasService.findAll();
+  }
+
   @Post()
   create(@Body() createVisitanteDto: CreateVisitasDto) {
     return this.visitasService.create(createVisitanteDto);
   }
 
   @Get(':id')
-  findAll(@Param('id') id: string) {
-    return this.visitasService.findAll(+id);
+  findOne(@Param('id') id: string) {
+    return this.visitasService.findOne(+id);
   }
 }

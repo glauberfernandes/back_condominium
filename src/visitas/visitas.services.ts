@@ -65,11 +65,11 @@ export class VisitasService {
     return qrCode;
   }
 
-  async findAll(idPessoa: number) {
+  async findOne(id: number) {
     return await this.prisma.destino.findMany({
       where: {
         pessoas: {
-          idPessoa: idPessoa,
+          idPessoa: id,
         },
       },
       include: {
@@ -80,6 +80,12 @@ export class VisitasService {
         },
         endereco: true,
       },
+    });
+  }
+
+  async findAll() {
+    return await this.prisma.destino.findMany({
+
     });
   }
 }

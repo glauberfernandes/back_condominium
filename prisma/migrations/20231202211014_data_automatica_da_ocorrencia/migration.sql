@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Ocorrencia" ALTER COLUMN "dataOcorrencia" SET DEFAULT CURRENT_TIMESTAMP;

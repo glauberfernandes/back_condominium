@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Ocorrencia" ALTER COLUMN "dataOcorrencia" SET DEFAULT CURRENT_TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "TipoPessoa" ADD COLUMN     "dtCadastro" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

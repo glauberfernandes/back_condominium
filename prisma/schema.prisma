@@ -89,6 +89,7 @@ model Pessoa {
   telefone     Telefone[]
   veiculos     Veiculo[]
   visita       Destino[]
+  dtCadastro   DateTime @default(now())
 }
 
 model TipoPessoa {
