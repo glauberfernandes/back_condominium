@@ -10,27 +10,6 @@ import * as csv from 'csv-parser';
 export class VisitanteService {
   constructor(private prisma: PrismaService) {}
 
-  // async generatePdf(): Promise<Buffer> {
-  //   const browser = await puppeteer.launch();
-  //   const page = await browser.newPage();
-  //   const data = '<table><tr><th>Header 1</th><th>Header 2</th></tr><tr><td>Data 1</td><td>Data 2</td></tr></table>';
-
-  //   await page.setContent(`<html><body>${data}</body></html>`);
-  //   const pdfBuffer = await page.pdf({ format: 'A4' });
-
-  //   Response.set({
-  //     'Content-Type': 'application/pdf',
-  //     'Content-Disposition': 'attachment; filename="table.pdf"',
-  //     'Content-Length': pdfBuffer.length.toString(),
-  //   });
-
-  //   Response.send(pdfBuffer);
-
-  //   await browser.close();
-
-  //   return pdfBuffer;
-  // }
-
   async createCSV(file: { destination: any; filename: any }) {
     const filePath = `${file.destination}/${file.filename}`;
 

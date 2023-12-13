@@ -7,6 +7,10 @@ export class CreateVisitanteDto {
 
   @IsString()
   @IsEmpty()
+  dtCadastro?: Date;
+
+  @IsString()
+  @IsEmpty()
   documento: string;
 
   @IsString()
